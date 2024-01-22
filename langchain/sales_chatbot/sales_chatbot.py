@@ -45,11 +45,15 @@ def launch_gradio():
         # undo_btn=None,
         chatbot=gr.Chatbot(height=600),
     )
-
     demo.launch(share=True, server_name="0.0.0.0")
+
+
+
 
 if __name__ == "__main__":
     # 初始化房产销售机器人
     initialize_sales_bot()
     # 启动 Gradio 服务
     launch_gradio()
+
+
