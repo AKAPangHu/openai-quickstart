@@ -165,5 +165,5 @@ openai_api/data/fine_food_reviews_with_embeddings_1k_2146.csv
 *.pkl
 *.bin
 
-langchain/openai-translator/flagged/*
-langchain/openai-translator/flask_temps/*
+langchain_projects/openai-translator/flagged/*
+langchain_projects/openai-translator/flask_temps/*
