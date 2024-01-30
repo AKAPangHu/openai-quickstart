@@ -11,10 +11,11 @@ from langchain.chat_models import ChatOpenAI
 from langchain_projects.sales_chatbot.faiss_services.faiss_service import save_into_faiss
 
 ENABLE_CHAT = False
+BOT = None
 
 
 @unique
-class Scene_enum(Enum):
+class SceneEnum(Enum):
     房产 = "real_estate"
     iPhone = "iphone"
     英语培训 = "english_training"
@@ -71,6 +72,7 @@ def change_enable_chat(enable):
     global ENABLE_CHAT
     ENABLE_CHAT = enable
 
+
 def bot(history, text):
     # print(f"bot-[history]{history}")
     # print(f"bot-[text]{text}")
@@ -97,10 +99,10 @@ def launch_gradio_by_blocks():
             with gr.Column(scale=1):
                 with gr.Row():
                     scene_radio = gr.Radio(
-                        [(member.name, member.value) for member in Scene_enum],
+                        [(member.name, member.value) for member in SceneEnum],
                         label="切换场景",
                         info="选择一个要咨询的场景",
-                        value=Scene_enum.房产.name,
+                        value=SceneEnum.房产.name,
                     )
                     enable_chat_checkbox = gr.Checkbox(
                         label="激活 AI", info="通过 AI 更好的回答问题", value=ENABLE_CHAT
@@ -140,7 +142,7 @@ def launch_gradio():
 
 
 def initialize_faiss_data():
-    for e in Scene_enum:
+    for e in SceneEnum:
         save_into_faiss(e.value)
 
 
