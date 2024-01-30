@@ -4,6 +4,7 @@ from langchain.agents import Tool
 from langchain.tools.file_management.write import WriteFileTool
 from langchain.tools.file_management.read import ReadFileTool
 from langchain_community.embeddings import OpenAIEmbeddings
+import gradio as gr
 
 from langchain_experimental.autonomous_agents import AutoGPT
 from langchain.chat_models import ChatOpenAI
@@ -15,7 +16,7 @@ from langchain.docstore import InMemoryDocstore
 os.environ["SERPAPI_API_KEY"] = "1409f253431dc3b70eef51617ea1aa8a439709192ebd51343457225b51f6835a"
 
 
-def test_serpapi():
+def test_serpapi(text):
     search = SerpAPIWrapper()
     tools = [
         Tool(
@@ -24,8 +25,8 @@ def test_serpapi():
             description="useful for when you need to answer questions about current events. You should ask targeted "
                         "questions",
         ),
-        WriteFileTool(name='write_file', description='Write file to disk'),
-        ReadFileTool(),
+        WriteFileTool(),
+        ReadFileTool()
     ]
 
     embeddings_model = OpenAIEmbeddings()
@@ -49,8 +50,25 @@ def test_serpapi():
 
     agent.chain.verbose = True
 
-    agent.run(["为什么光具有波粒二象性？他有什么样的特性呢？"])
+    return agent.run([text])
+
+
+def greet(text):
+    return test_serpapi(text)
+
+
+def init_gradio():
+    demo = gr.Interface(
+        fn=greet,
+        title="Auto-GPT",
+        description="一个自动拆解任务，回答的智能机器人！",
+        inputs=["text"],
+        outputs=["text"],
+    )
+
+    demo.launch()
 
 
 if __name__ == "__main__":
-    test_serpapi()
+    # test_serpapi()
+    init_gradio()
